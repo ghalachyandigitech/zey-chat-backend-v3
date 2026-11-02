@@ -1,0 +1,25 @@
+{
+  "name": "admin1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^4.21.1",
+    "express-fileupload": "^1.5.1",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "meilisearch": "^0.56.0",
+    "mongoose": "^8.7.2",
+    "node-ipinfo": "^4.3.0",
+    "redis": "^5.10.0",
+    "socket.io": "^4.8.0"
+  }
+}
