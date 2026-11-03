@@ -45,7 +45,8 @@ exports.updateNote = async function(req, res){
 };
 
 exports.updateProfileImage = async function(req, res){
-    const {files, userPartner} = req;
+    const {files} = req;
+    const {_id} = req.userPartner;
     const file = files && files['profile-image'];
 
     if(!file || !['image/png', 'image/jpg', 'image/jpeg'].includes(file.mimetype))
@@ -53,7 +54,7 @@ exports.updateProfileImage = async function(req, res){
 
     //todo file error brnel
     const profileImage = await saveBuffer([file.mimetype, file.data]);
-    await userPartnerModel.updateOne({_id: userPartner._id}, {profileImage: profileImage});
+    await userPartnerModel.updateOne({_id: _id}, {profileImage: profileImage});
 
     return res.json({
         profileImage: profileImage
@@ -98,7 +99,7 @@ exports.getVisitor = async function(req, res){
 
     return res.json({
         userPartner: await userPartnerModel.findOne({_id: userPartnerId, partnerId}),
-        chatsPast: await chatModel.getPastChats(partnerId, userPartnerId) //todo dzel queryn
+        chatsPast: await chatModel.getPastChats(partnerId, userPartnerId)
     });
 };
 

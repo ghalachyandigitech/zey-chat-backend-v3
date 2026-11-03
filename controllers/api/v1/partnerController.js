@@ -47,7 +47,6 @@ exports.create = async function(req, res){
     });
 };
 
-
 exports.status = async function(req, res){
     if(!validationResult(req).isEmpty()) return res.status(422).json();
 

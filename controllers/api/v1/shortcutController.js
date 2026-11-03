@@ -21,7 +21,6 @@ exports.create = async function(req, res){
     return res.json(await shortcutModel.create({partnerId: partnerId, tag: req.body.tag, message: req.body.message}));
 };
 
-
 exports.delete = async function(req, res){
     if(!validationResult(req).isEmpty()) return res.status(422).json();
 

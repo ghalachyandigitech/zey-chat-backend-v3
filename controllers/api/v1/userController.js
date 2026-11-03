@@ -146,7 +146,7 @@ exports.createUserAdmin = async function(req, res){
 
     let userAdmin = await userModel.findOne({email: email}).select('_id canBeAdmin');
     if(userAdmin){
-        if(userAdmin.canBeAdmin) return res.status(422).json('admin with this email exist');
+        if(userAdmin.canBeAdmin) return res.status(422).json('this user are not admin');
         await userModel.updateAdmin(userAdmin._id, {canBeAdmin: true, companyName, phone, name, resetToken});
     }else{
         userAdmin = await userModel.createAdmin(email, password, phone, companyName, name, resetToken);
