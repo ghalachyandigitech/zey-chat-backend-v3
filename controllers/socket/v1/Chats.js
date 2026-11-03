@@ -2,10 +2,10 @@ const {Types} = require('mongoose');
 const messageModel = require('../../../models/redis/messageModel');
 const autoAnswerModel = require('../../../models/redis/autoAnswerModel');
 const unreadModel = require('../../../models/redis/unreadModel');
-const chatModel = require('../../../models/Chat');
-const chatUserModel = require('../../../models/ChatUser');
-const chatMessageModel = require('../../../models/ChatMessage');
-const userPartnerModel = require('../../../models/UserPartner');
+const chatModel = require('../../../models/mongo/Chat');
+const chatUserModel = require('../../../models/mongo/ChatUser');
+const chatMessageModel = require('../../../models/mongo/ChatMessage');
+const userPartnerModel = require('../../../models/mongo/UserPartner');
 const {setPartnerChat, updatePartnerChatRating} = require('../../../core/MeiliSearch');
 
 module.exports = function(partner){

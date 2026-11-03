@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
-const chatModel = require('../../../models/Chat');
-const userModel = require('../../../models/User');
-const partnerModel = require('../../../models/Partner');
+const chatModel = require('../../../models/mongo/Chat');
+const userModel = require('../../../models/mongo/User');
+const partnerModel = require('../../../models/mongo/Partner');
 const {USER_SUPER_JWT_SECRET_KEY, USER_SUPER_JWT_EXPIRE_IN} = process.env;
 
 exports.login = async function(req, res){

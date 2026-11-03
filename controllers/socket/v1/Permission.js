@@ -1,6 +1,6 @@
-const chatModel = require('../../../models/Chat');
-const partnerModel = require('../../../models/Partner');
-const userPartnerModel = require('../../../models/UserPartner');
+const chatModel = require('../../../models/mongo/Chat');
+const partnerModel = require('../../../models/mongo/Partner');
+const userPartnerModel = require('../../../models/mongo/UserPartner');
 
 module.exports = function(partner){
     this.chatFile = async function(chatId){

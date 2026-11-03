@@ -1,5 +1,5 @@
 const {saveBuffer} = require("../../../helpers/fileHelper");
-const chatMessageModel = require('../../../models/ChatMessage');
+const chatMessageModel = require('../../../models/mongo/ChatMessage');
 const messageModel = require('../../../models/redis/messageModel');
 const unreadModel = require('../../../models/redis/unreadModel');
 

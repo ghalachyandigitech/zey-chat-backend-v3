@@ -5,9 +5,9 @@ const Users = require('../controllers/socket/v1/Users');
 const Message = require('../controllers/socket/v1/Message');
 const Permission = require('../controllers/socket/v1/Permission');
 const {partnerCron, ipCron} = require('../controllers/socket/v1/Cron');
-const partnerModel = require('../models/Partner');
-const widgetModel = require('../models/Widget');
-const userPartnerModel = require('../models/UserPartner');
+const partnerModel = require('../models/mongo/Partner');
+const widgetModel = require('../models/mongo/Widget');
+const userPartnerModel = require('../models/mongo/UserPartner');
 const {IP_ADDRESSES_CRON_INTERVAL, CRON_DISCONNECT_AGENTS_INTERVAL, CRON_DISCONNECT_VISITORS_INTERVAL, CRON_AUTO_ANSWER_INTERVAL, CRON_MEILI_SEARCH_TASKS_INTERVAL} = process.env;
 
 let io = null;
@@ -35,8 +35,9 @@ exports.deleteIo = function(partnerId){
     delete partners[partnerId];
 };
 
-exports.getPartner = function (partnerId){
-    return partners[partnerId];
+exports.updatePartnerFile = function (partnerId, file){
+    const partner = partners[partnerId];
+    if(partner) partner.file = file;
 };
 
 exports.updatePartnerWidget = function(partnerId, widgetId, widget){

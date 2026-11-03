@@ -1,5 +1,5 @@
 const {WIDGET_MAIN_PATH} = process.env;
-const widgetModel = require("../../../models/Widget");
+const widgetModel = require("../../../models/mongo/Widget");
 const {validationResult} = require('express-validator');
 const {updatePartnerWidget, deletePartnerWidget} = require('../../../core/Io');
 
@@ -73,7 +73,7 @@ exports.updateStyles = async function(req, res){
 
     await widgetModel.updateOne({_id: _id, partnerId: partnerId}, {styles: styles});
 
-    setPartnerWidget(partnerId, _id, await widgetModel.findOne({_id: _id}));
+    updatePartnerWidget(partnerId, _id, await widgetModel.findOne({_id: _id}));
 
     return res.json();
 };

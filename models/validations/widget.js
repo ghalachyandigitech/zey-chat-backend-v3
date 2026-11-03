@@ -1,5 +1,5 @@
 const {body, query} = require("express-validator");
-const widgetModel = require("../Widget");
+const widgetModel = require("../mongo/Widget");
 
 const email = query('email').isEmail().normalizeEmail().notEmpty();
 

@@ -46,8 +46,8 @@ router.get('/user-partners/sign-in', [userPartnerAuth], userPartnerController.si
 
 router.get('/user-partners/agents', [userPartnerAuth], userPartnerController.getAgents);
 router.post('/user-partners/agents', [userPartnerAuth, userPartnerAdminAuth, userPartnerValidation.createAgent, userValidation.create], userPartnerController.createAgents);
-router.put('/team-leads/user-partners/agents', [userPartnerAuth, userPartnerTeamLeadAuth, userPartnerValidation.teamLeadsUpdateAgent], userPartnerController.teamLeadsUpdateAgents);
-router.put('/admins/user-partners/agents', [userPartnerAuth, userPartnerAdminAuth, userPartnerValidation.adminsUpdateAgent, userValidation.update], userPartnerController.adminsUpdateAgents);
+router.put('/user-partners/agents/team-leads', [userPartnerAuth, userPartnerTeamLeadAuth, userPartnerValidation.teamLeadsUpdateAgent], userPartnerController.teamLeadsUpdateAgents);
+router.put('/user-partners/agents/admins', [userPartnerAuth, userPartnerAdminAuth, userPartnerValidation.adminsUpdateAgent, userValidation.update], userPartnerController.adminsUpdateAgents);
 router.delete('/user-partners/agents', [userPartnerAuth, userPartnerAdminAuth, userPartnerValidation.deleteAgent], userPartnerController.deleteAgents);
 
 router.get('/user-partners/shortcuts', [userPartnerAuth, userPartnerTeamLeadAuth], shortcutController.get);

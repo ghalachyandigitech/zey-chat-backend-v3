@@ -1,4 +1,4 @@
-const shortcutModel = require('../../../models/Shortcut');
+const shortcutModel = require('../../../models/mongo/Shortcut');
 const {validationResult} = require('express-validator');
 
 exports.getAgents = async function(req, res){

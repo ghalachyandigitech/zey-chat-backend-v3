@@ -1,7 +1,7 @@
-const chatModel = require('../../../models/Chat');
+const chatModel = require('../../../models/mongo/Chat');
 const {getPartnerChats} = require('../../../core/MeiliSearch');
-const userPartnerModel = require('../../../models/UserPartner');
-const chatMessageModel = require('../../../models/ChatMessage');
+const userPartnerModel = require('../../../models/mongo/UserPartner');
+const chatMessageModel = require('../../../models/mongo/ChatMessage');
 const {validationResult} = require('express-validator');
 
 exports.transcript = async function(req, res){
@@ -20,7 +20,7 @@ exports.get = async function(req, res){
     if(!validationResult(req).isEmpty()) return res.status(422).json();
 
     const {partnerId} = req.userPartner;
-    const {dateFrom, dateTo, visitorId, agentName, message, rating, status, page} = req.body; //todo agentId
+    const {dateFrom, dateTo, visitorId, agentName, message, rating, status, page} = req.body;
 
     let agentsIds = [];
     if(agentName){

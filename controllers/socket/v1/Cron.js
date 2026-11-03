@@ -1,4 +1,4 @@
-const userPartnerModel = require('../../../models/UserPartner');
+const userPartnerModel = require('../../../models/mongo/UserPartner');
 const ipModel = require('../../../models/redis/ipModel');
 const {setClientTasksErrors} = require('../../../core/MeiliSearch');
 const autoAnswerModel = require('../../../models/redis/autoAnswerModel');

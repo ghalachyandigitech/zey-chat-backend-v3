@@ -1,9 +1,9 @@
 const {sendUserAdminPassword} = require('../../../helpers/mailHelper');
 const {logoutPartnerAgents} = require('../../../core/Io');
 const {randomString, stringToSha256} = require('../../../helpers/stringHelper');
-const userModel = require("../../../models/User");
-const userPartnerModel = require("../../../models/UserPartner");
-const partnerModel = require("../../../models/Partner");
+const userModel = require("../../../models/mongo/User");
+const userPartnerModel = require("../../../models/mongo/UserPartner");
+const partnerModel = require("../../../models/mongo/Partner");
 const jwt = require('jsonwebtoken');
 const {validationResult} = require('express-validator');
 const {USER_JWT_SECRET_KEY, USER_JWT_EXPIRE_IN, USER_PARTNER_JWT_SECRET_KEY, USER_PARTNER_JWT_EXPIRE_IN} = process.env;

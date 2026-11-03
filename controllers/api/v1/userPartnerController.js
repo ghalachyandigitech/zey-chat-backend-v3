@@ -1,9 +1,9 @@
 const {validationResult} = require('express-validator');
-const userPartnerModel = require('../../../models/UserPartner');
-const partnerModel = require('../../../models/Partner');
-const userModel = require('../../../models/User');
-const shortcutModel = require('../../../models/Shortcut');
-const chatModel = require('../../../models/Chat');
+const userPartnerModel = require('../../../models/mongo/UserPartner');
+const partnerModel = require('../../../models/mongo/Partner');
+const userModel = require('../../../models/mongo/User');
+const shortcutModel = require('../../../models/mongo/Shortcut');
+const chatModel = require('../../../models/mongo/Chat');
 const {saveBuffer, deleteFile} = require('../../../helpers/fileHelper');
 
 exports.signIn = async function(req, res){

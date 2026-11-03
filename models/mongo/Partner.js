@@ -1,5 +1,5 @@
 const {Schema, model} = require('mongoose');
-const chatUserModel = require('../models/ChatUser');
+const chatUserModel = require('./ChatUser');
 
 // const file = ["disable", "manual-disable", "enable", "manual-enable"];
 // const request = ['auto', 'manual'];

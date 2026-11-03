@@ -1,10 +1,10 @@
 const {validationResult} = require('express-validator');
-const partnerModel = require('../../../models/Partner');
-const userPartnerModel = require('../../../models/UserPartner');
-const userModel = require('../../../models/User');
-const widgetModel = require('../../../models/Widget');
-const chatModel = require('../../../models/Chat');
-const {getPartner, createIo, deleteIo} = require('../../../core/Io');
+const partnerModel = require('../../../models/mongo/Partner');
+const userPartnerModel = require('../../../models/mongo/UserPartner');
+const userModel = require('../../../models/mongo/User');
+const widgetModel = require('../../../models/mongo/Widget');
+const chatModel = require('../../../models/mongo/Chat');
+const {updatePartnerFile, createIo, deleteIo} = require('../../../core/Io');
 const {saveBuffer, deleteFile} = require('../../../helpers/fileHelper');
 
 exports.get = async function(req, res){
@@ -86,10 +86,9 @@ exports.update = async function(req, res){
         $in: userAdmins.filter(({userId}) => !userAdminsIds.includes(userId.toString())).map(({_id}) => _id)
     }});
 
-    await partnerModel.updateOne({_id: _id}, {name, key, file});
+    updatePartnerFile(_id, file);
 
-    const socketPartner = getPartner(_id);
-    if(socketPartner) socketPartner.file = file; //todo tanel Io.js
+    await partnerModel.updateOne({_id: _id}, {name, key, file});
 
     return res.json({
         partner: {_id, name, file, userAdminsIds}
@@ -106,8 +105,8 @@ exports.delete = async function(req, res){
     await userPartnerModel.deleteMany({partnerId: _id});
 
     deleteIo(_id);
-//todo chatmessages@ jnjel erevi
-//todo meili search@ jnjel erevi
+//todo chatmessages@ jnjel
+//todo meili search@ jnjel
 
     return res.json();
 };

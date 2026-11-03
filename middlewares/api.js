@@ -1,5 +1,5 @@
 const {USER_SUPER_JWT_SECRET_KEY, USER_PARTNER_JWT_SECRET_KEY, USER_JWT_SECRET_KEY} = process.env;
-const userPartnerModel = require('../models/UserPartner');
+const userPartnerModel = require('../models/mongo/UserPartner');
 const jwt = require('jsonwebtoken');
 
 exports.userSuperAuth = function(req, res, next){

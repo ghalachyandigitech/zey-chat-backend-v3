@@ -1,5 +1,5 @@
-const userPartnerModel = require('../../../models/UserPartner');
-const chatModel = require('../../../models/Chat');
+const userPartnerModel = require('../../../models/mongo/UserPartner');
+const chatModel = require('../../../models/mongo/Chat');
 const autoAnswerModel = require('../../../models/redis/autoAnswerModel');
 
 module.exports = function(partner, setAutoAnswer){

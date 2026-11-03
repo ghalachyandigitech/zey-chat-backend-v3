@@ -1,5 +1,5 @@
-const userModel = require("../User");
-const userPartnerModel = require("../UserPartner");
+const userModel = require("../mongo/User");
+const userPartnerModel = require("../mongo/UserPartner");
 const {body, query} = require("express-validator");
 
 const _id = query('_id').isString().notEmpty().custom(async value => { //todo objectId chlini error a???

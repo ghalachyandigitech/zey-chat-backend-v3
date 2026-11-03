@@ -1,5 +1,5 @@
 const {body, query} = require("express-validator");
-const partnerModel = require("../Partner");
+const partnerModel = require("../mongo/Partner");
 
 const _id = query('_id').isString().notEmpty().custom(async value => { //todo objectId chlini error
     if(!await partnerModel.findOne({_id: value})) throw new Error('partner not found');

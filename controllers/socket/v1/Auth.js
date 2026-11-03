@@ -1,7 +1,7 @@
 const ipModel = require('../../../models/redis/ipModel');
-const chatModel = require('../../../models/Chat');
-const chatUserModel = require('../../../models/ChatUser');
-const userPartnerModel = require('../../../models/UserPartner');
+const chatModel = require('../../../models/mongo/Chat');
+const chatUserModel = require('../../../models/mongo/ChatUser');
+const userPartnerModel = require('../../../models/mongo/UserPartner');
 
 module.exports = function(partner){
     this.setAdmins = async function(views){
