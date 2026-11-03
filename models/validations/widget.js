@@ -41,7 +41,18 @@ const styles = [
     body('styles.spacingBottomMobile').isInt({min: 0, max: 1000}).notEmpty(),
     body('styles.zIndex').isInt({min: 0, max: 999999}).notEmpty(),
     body('styles.zIndexMobile').isInt({min: 0, max: 999999}).notEmpty(),
-    body('styles.notificationColor').isHexColor().notEmpty()
+    body('styles.notificationColor').isHexColor().notEmpty(),
+    body('styles.textareaBorderColor').isHexColor().notEmpty(),
+    body('styles.typingTextColor').isHexColor().notEmpty(),
+    body('styles.sendButtonBackgroundColor').isHexColor().notEmpty(),
+    body('styles.sendButtonIconColor').isHexColor().notEmpty(),
+    body('styles.sendButtonHoverColor').isHexColor().notEmpty(),
+    body('styles.fileButtonBackgroundColor').isHexColor().notEmpty(),
+    body('styles.fileButtonIconColor').isHexColor().notEmpty(),
+    body('styles.fileButtonHoverColor').isHexColor().notEmpty(),
+    body('styles.typingAnimationColor').isHexColor().notEmpty(),
+    body('styles.waitingAgentAnimationColor').isHexColor().notEmpty(),
+    body('styles.notificationColor').isHexColor().notEmpty(),
 ];
 
 module.exports = {
