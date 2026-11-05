@@ -386,9 +386,10 @@ chatSchema.statics.getAgentRecovers = async function (partnerId, userId) {
 };
 
 chatSchema.statics.end = async function (chatId, status) {
-    const {modifiedCount} = await this.updateOne({_id: chatId, status: {$nin: [5, 6]}}, {status: status < 2 ? 6 : 5});
+    status = status < 2 ? 6 : 5;
+    const {modifiedCount} = await this.updateOne({_id: chatId, status: {$nin: [5, 6]}}, {status});
 
-    return modifiedCount;
+    return modifiedCount && status;
 };
 
 chatSchema.statics.setLog = async function (_id, userId, action) {

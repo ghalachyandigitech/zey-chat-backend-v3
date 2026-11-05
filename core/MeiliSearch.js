@@ -49,12 +49,15 @@ module.exports = {
 
         const index = client.index(`${partnerId}_chats`);
 console.log(partnerId);
+console.log(visitorName);
+console.log(status);
+console.log(rating);
         const filter = [];
-        // agentsIds.length && filter.push(`agentsIds IN [${agentsIds.join(',')}]`);
-        // visitorName && filter.push(`visitorName = ${visitorName}`);
-        // status && filter.push(`status = ${status}`);
-        // rating && filter.push(`rating = ${rating}`);
-        // dateFrom && filter.push(`createdAt >= ${dateFrom}`) && dateTo && filter.push(`createdAt < ${dateTo}`);
+        agentsIds.length && filter.push(`agentsIds IN [${agentsIds.join(',')}]`);
+        visitorName && filter.push(`visitorName = ${visitorName}`);
+        status && filter.push(`status = ${status}`);
+        rating && filter.push(`rating = ${rating}`);
+        dateFrom && filter.push(`createdAt >= ${dateFrom}`) && dateTo && filter.push(`createdAt < ${dateTo}`);
 console.log(filter);
         const {hits, estimatedTotalHits} = await index.search(text, {filter: filter.join(' AND '), limit, offset, sort: ['createdAt:desc']});
         return {data: hits, count: estimatedTotalHits};
