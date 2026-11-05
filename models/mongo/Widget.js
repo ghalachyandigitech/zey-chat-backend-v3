@@ -25,8 +25,8 @@ const widgetSchema = new Schema({
         widgetIconColor: { type: String, default: "#FFFFFF" },
         agentTextColor: { type: String, default: "#FFFFFF" },
         widgetGradientType: { type: String, default: "linear-gradient" },
-        windowSize: { type: String, default: "overlay" },
-        windowSizeMobile: { type: String, default: "overlay" },
+        windowSize: { type: String, default: "overlay" }, //todo chi ogtagorcvum jnjel
+        windowSizeMobile: { type: String, default: "overlay" }, //todo chi ogtagorcvum jnjel
         widgetPosition: { type: String, default: "bottom-right" },
         widgetPositionMobile: { type: String, default: "bottom-right" },
         spacingSide: { type: Number, default: 15 },
