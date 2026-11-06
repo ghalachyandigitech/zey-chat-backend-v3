@@ -36,7 +36,7 @@ function setChat(chat){
 
         const user = chat.user[0]?.userPartner || {};
         const companion = chat.users[0]?.userPartner[0] || {};
-        const {name, styles} = (companion.widget && companion.widget[0]) || {};
+        const {name, styles} = (companion.widget && companion.widget[0]) || {styles: {}};
 
         return {
             _id: chat._id.toString(),
@@ -389,7 +389,7 @@ chatSchema.statics.end = async function (chatId, status) {
     status = status < 2 ? 6 : 5;
     const {modifiedCount} = await this.updateOne({_id: chatId, status: {$nin: [5, 6]}}, {status});
 
-    return modifiedCount && status;
+    return modifiedCount ? status : undefined;
 };
 
 chatSchema.statics.setLog = async function (_id, userId, action) {

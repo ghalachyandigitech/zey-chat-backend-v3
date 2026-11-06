@@ -68,9 +68,9 @@ router.put('/widgets/styles', [userPartnerAuth, userPartnerAdminAuth, widgetVali
 
 router.post('/user-partners/chats', [userPartnerAuth, chatValidation.get], chatController.get);
 router.get('/chats/transcript', [userPartnerAuth], chatController.transcript);
+router.delete('/chats/file', [userPartnerAuth, userPartnerTeamLeadAuth], chatController.deleteFile);
 
 router.get('/user-partners/visitors', [userPartnerAuth], userPartnerController.getVisitor);
-router.get('/user-partners/visitors/banned', [userPartnerAuth, userPartnerTeamLeadAuth], userPartnerController.getVisitorsBanned);
 
 router.put('/user-partners', [userPartnerAuth, userPartnerTeamLeadAuth, userPartnerValidation.updateProfile, userValidation.update], userPartnerController.update);
 router.put('/user-partners/note', [userPartnerAuth, userPartnerValidation.updateNote], userPartnerController.updateNote);

@@ -124,11 +124,11 @@ userPartnerSchema.statics.getVisitor = async function(partnerId, _id) {
         });
 };
 
-userPartnerSchema.statics.getBannedVisitors = async function(partnerId, page) {
+userPartnerSchema.statics.getBannedVisitors = async function(partnerId) {
     return await this.find(
         {partnerId: partnerId, role: 4, banExpire: {$gte: new Date()}},
         'name banReason updatedAt'
-    ).limit(10);
+    );
 };
 
 userPartnerSchema.statics.getLogUsers = async function(userPartnerIds){

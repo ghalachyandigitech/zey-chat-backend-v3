@@ -1,8 +1,24 @@
 const chatModel = require('../../../models/mongo/Chat');
 const {getPartnerChats} = require('../../../core/MeiliSearch');
 const userPartnerModel = require('../../../models/mongo/UserPartner');
+const {deleteFile} = require('../../../helpers/fileHelper');
 const chatMessageModel = require('../../../models/mongo/ChatMessage');
 const {validationResult} = require('express-validator');
+
+exports.deleteFile = async function(req, res){
+    const {messageId} = req.query;
+console.log(messageId);
+    const message = await chatMessageModel.findOne({_id: messageId});
+    if (message.file) {
+        const fileName = message.file.split('/').pop();
+        await deleteFile('video', fileName);
+        await deleteFile("image", fileName);
+    }
+
+    await chatMessageModel.updateOne({_id: messageId}, {file: ''});
+
+    return res.json();
+};
 
 exports.transcript = async function(req, res){
     const [rating, logs, createdAt] = await chatModel.getChatById(req.query._id);

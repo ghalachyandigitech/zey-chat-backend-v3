@@ -9,20 +9,18 @@ const {saveBuffer, deleteFile} = require('../../../helpers/fileHelper');
 exports.signIn = async function(req, res){
     const {userId, _id, partnerId} = req.userPartner;
 
-    const [user, userPartner, partner, shortcuts, agents] = await Promise.all([
+    const [user, userPartner, partner, shortcuts] = await Promise.all([
         userModel.findOne({_id: userId}).select('email'),
         userPartnerModel.findOne({_id: _id}).select('role name profileImage messageFlag requestFlag'),
         partnerModel.findOne({_id: partnerId}).select('name dashboardImage request'),
         shortcutModel.find({partnerId: partnerId}).select('tag message'),
-        userPartnerModel.getAgents(partnerId),
     ]);
 
     return res.json({
         userEmail: user.email,
         shortcuts: shortcuts.map(({tag, message}) => ({tag: tag, message: message})),
         partner,
-        userPartner,
-        agents
+        userPartner
     });
 };
 
@@ -83,14 +81,6 @@ exports.update = async function(req, res){
     await userModel.updateOne({_id: userPartner.userId}, {email: email}); //todo ete update emailic arden unenq
 
     return res.json(req.body);
-};
-
-exports.getVisitorsBanned = async function(req, res){
-    const {partnerId} = req.userPartner;
-
-    return res.json({
-        visitors: await userPartnerModel.getBannedVisitors(partnerId, 1)
-    })
 };
 
 exports.getVisitor = async function(req, res){

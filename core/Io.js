@@ -150,7 +150,12 @@ exports.createIo = async function({_id, file, meta, request, name, activeChats, 
             socket.on('update.visitors', users.updateVisitor);
 
             socket.join(partner.id);
-            socket.emit('user.update', [user, partner.getAgents(), partner.file]);  //todo partner file karox a petq chi
+            socket.emit('user.update', [
+                user,
+                await userPartnerModel.getAgents(partner.id),
+                partner.file,
+                await userPartnerModel.getBannedVisitors(partner.id)
+            ]);
         }else{
             socket.disconnect();
         }
