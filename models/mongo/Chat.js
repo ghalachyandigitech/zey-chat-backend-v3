@@ -57,7 +57,6 @@ function setChat(chat){
                 status: companion.status,
                 name: companion.name,
                 image: companion.profileImage,
-                banExpire: companion.banExpire && companion.banExpire > new Date(),
             }
         };
     }

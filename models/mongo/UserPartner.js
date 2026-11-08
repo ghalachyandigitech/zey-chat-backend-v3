@@ -35,6 +35,7 @@ const userPartnerSchema = new Schema({
     userAgent: { type: String },
     visits: { type: Number },
     banExpire: { type: Date },
+    banUpdatedAt: { type: Date },
     banReason: { type: String },
     limit: { type: Number },
     views: [Types.ObjectId],
@@ -127,7 +128,7 @@ userPartnerSchema.statics.getVisitor = async function(partnerId, _id) {
 userPartnerSchema.statics.getBannedVisitors = async function(partnerId) {
     return await this.find(
         {partnerId: partnerId, role: 4, banExpire: {$gte: new Date()}},
-        'name banReason updatedAt'
+        'name banReason banUpdatedAt'
     );
 };
 

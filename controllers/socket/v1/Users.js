@@ -52,8 +52,8 @@ module.exports = function(partner, setAutoAnswer){
 
         if(lastReferrer !== referrer){
             await userPartnerModel.updateOne({_id: userId}, {$push: {referrers: referrer}});
-            const [visitor] = partner.updateVisitor(userId, {referrer: referrer});
-            partner.io.to('admins').emit('visitors.update', [visitor, ''])
+            const [visitor, role] = partner.updateVisitor(userId, {referrer: referrer});
+            partner.io.to('admins').emit('visitors.update', [visitor, role])
         }
     };
 };

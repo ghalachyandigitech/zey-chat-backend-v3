@@ -18,18 +18,14 @@ module.exports = function(partner){
         let model;
         const {banExpire} = await userPartnerModel.findOne({_id: userPartnerId});
         if(!banExpire && time){
-            model = {banExpire: new Date(Date.now() + time * 24 * 60 * 60 * 1000), banReason: banReason};
+            model = {banUpdatedAt: new Date(), banExpire: new Date(Date.now() + time * 24 * 60 * 60 * 1000), banReason: banReason};
         }else{
-            model = {$unset: {banExpire: ''}};
+            model = {$unset: {banExpire: '', banUpdatedAt: ''}};
         }
 
         await userPartnerModel.updateOne({_id: userPartnerId}, model);
 
-        const chatId = partner.users.getParam('visitors', userPartnerId, 'chatId');
-        if(chatId){
-            partner.emitTo('agents', partner.companionId(chatId, userPartnerId), 'permission.ban.set', [model.banExpire, userPartnerId, banReason])
-        }
-        partner.io.to('admins').emit('permission.ban.set', [model.banExpire, userPartnerId, banReason]);
+        partner.io.to(partner.id).emit('permission.ban.set', [model.banUpdatedAt, userPartnerId, banReason]);
         partner.updateVisitor(userPartnerId, {banExpire: model.banExpire});
         partner.emitTo('visitors', userPartnerId, 'permission.ban', !model.banExpire);
     };

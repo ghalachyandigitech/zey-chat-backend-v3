@@ -72,7 +72,7 @@ module.exports = function(partner){
 
         if(visitor.banExpire && visitor.banExpire < new Date()){
             await userPartnerModel.updateOne({_id: visitor._id}, {$unset: {banExpire: ''}});
-            partner.io.to('admins').emit('permission.ban.set', ['', visitor._id]);
+            partner.io.to(partner.id).emit('permission.ban.set', ['', visitor._id]);
             visitor.banExpire = '';
         }
 
@@ -90,6 +90,7 @@ module.exports = function(partner){
         if(this.id !== partner.users.getParam('visitors', userId, 'id')) return;
 
         partner.visitorUpdateRoleAuto(userId, 'disconnected-visitors');
+        partner.updateVisitor(userId, {disconnected: Date.now()});
     };
 
     this.disconnectingAgent = function(){

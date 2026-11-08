@@ -7,7 +7,7 @@ const {validationResult} = require('express-validator');
 
 exports.deleteFile = async function(req, res){
     const {messageId} = req.query;
-console.log(messageId);
+
     const message = await chatMessageModel.findOne({_id: messageId});
     if (message.file) {
         const fileName = message.file.split('/').pop();

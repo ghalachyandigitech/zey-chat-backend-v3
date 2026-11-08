@@ -34,7 +34,7 @@ router.put('/user-super/user-admins/reset-password', [userSuperAuth], userContro
 
 //user
 router.post('/users/login', [userValidation.login], userController.login);
-router.post('/users/logout',[userAuth], userController.logout);
+router.get('/users/logout',[userAuth], userController.logout);
 router.post('/users/create-password', [userValidation.createPassword], userController.createPassword);
 router.post('/users/forgot-password', [userValidation.forgotPassword], userController.forgotPassword);
 router.get('/users/sign-in', [userAuth], userController.signIn);

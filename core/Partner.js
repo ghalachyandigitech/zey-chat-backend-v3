@@ -122,6 +122,7 @@ module.exports = class Partner{
             }
         }
     }
+
     getAgents(){
         return [
             ...this.users['agents'].values(), //todo lriv datan petq chi
