@@ -1,5 +1,4 @@
 export function sendUserAdminPassword(email, resetToken){
-    console.log(email, resetToken);
     //todo karox reset i hamar subject tanq created i poxaren
     return true;
     return new Promise(async (resolve, reject) => {
