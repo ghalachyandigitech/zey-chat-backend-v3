@@ -23,9 +23,9 @@ module.exports = function(partner){
             model = {$unset: {banExpire: '', banUpdatedAt: ''}};
         }
 
-        await userPartnerModel.updateOne({_id: userPartnerId}, model);
+        const visitor = await userPartnerModel.findOneAndUpdate({_id: userPartnerId}, model);
 
-        partner.io.to(partner.id).emit('permission.ban.set', [model.banUpdatedAt, userPartnerId, banReason]);
+        partner.io.to(partner.id).emit('permission.ban.set', [model.banUpdatedAt, userPartnerId, banReason, visitor.name]);
         partner.updateVisitor(userPartnerId, {banExpire: model.banExpire});
         partner.emitTo('visitors', userPartnerId, 'permission.ban', !model.banExpire);
     };

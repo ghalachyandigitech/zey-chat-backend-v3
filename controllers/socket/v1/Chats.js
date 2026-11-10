@@ -134,9 +134,12 @@ module.exports = function(partner){
             const companionId = partner.companionId(chatId, userId);
 
             if(status !== 4){
-                partner.io.to(chatId).emit('chats.end', chatId);
-
                 await autoAnswerModel.deleteAutoAnswer(partner.id, chatId);
+
+                partner.io.to(chatId).emit('chats.end', chatId);
+                if(status === 3) partner.io.to('team-leads').emit('transfer.new.delete', chatId);
+                if(status === 1) partner.io.to('agents').emit('chats.manual.delete', chatId);
+                if(status > 1 && role === 'visitors') partner.createRelation(userId, companionId);
 
                 await setLog(chatId, userId, 'end chat');
 
@@ -160,10 +163,6 @@ module.exports = function(partner){
 
                 const [visitor] = partner.updateVisitor(visitorId, {roleCreated: '', pastChats: 1, chatId: '', companionId: ''});
                 partner.visitorUpdateRoleManual(visitorId, partner.io.sockets.get(visitor.id) ? 'active' : 'disconnected-visitors');
-
-                if(status === 3) partner.io.to('team-leads').emit('transfer.new.delete', chatId);
-                if(status === 1) partner.io.to('agents').emit('chats.manual.delete', chatId);
-                if(status > 1 && role === 'visitors') partner.createRelation(userId, companionId);
             }else{
                 partner.io.to(chatId).emit('chats.delete', chatId);
 

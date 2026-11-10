@@ -141,7 +141,7 @@ userPartnerSchema.statics.getLogUsers = async function(userPartnerIds){
 userPartnerSchema.statics.createVisitor = async function(partnerId, widgetId, referrer){
     const userModel = require('./User');
     const user = await userModel.create({});
-    const name = Math.floor(Math.random() * 1000000000).toString();
+    const name = Math.floor(Math.random() * 1000000000 + 999999).toString();
 
     const {_id} = await this.create({
         partnerId: partnerId,
@@ -161,7 +161,6 @@ userPartnerSchema.statics.createVisitor = async function(partnerId, widgetId, re
         name: name,
         referrer: referrer,
         pastChats: 0,
-        created: Date.now()
     }
 };
 
@@ -266,16 +265,13 @@ userPartnerSchema.statics.findVisitor = async function(userId){
         referrer: visitor.referrers[visitor.referrers.length-1],
         banExpire: visitor.banExpire,
         pastChats: visitor.chatUsers.length,
-        created: Date.now()
     }
 };
 
 userPartnerSchema.statics.getMeiliSearchInfo = async function(_ids){
     const userPartners = await this.find({_id: {$in: _ids}}, 'name');
 
-    return {
-        agentsNames: userPartners.map(({name}) => name)
-    }
+    return {agentsNames: userPartners.map(({name}) => name)}
 };
 
 userPartnerSchema.statics.getAgentsIdsByName = async function(partnerId, name){
