@@ -14,4 +14,11 @@ userSchema.statics.updateAdmin = async function(_id, data) {
     return await this.updateOne({_id, canBeAdmin: true}, data);
 };
 
+userSchema.statics.createAdmin = async function (email, password, phone, companyName, name, resetToken) {
+    const userAdmin = {email, password, phone, companyName, name, resetToken, canBeAdmin: true};
+    await this.create(userAdmin);
+
+    return userAdmin;
+};
+
 module.exports = model("User", userSchema);

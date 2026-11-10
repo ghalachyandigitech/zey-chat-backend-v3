@@ -140,6 +140,7 @@ exports.createUserAdmin = async function(req, res){
     if(!validationResult(req).isEmpty()) return res.status(422).json();
 
     const {name, companyName, phone} = req.body;
+    console.log(req.body)
     const email = req.body.email.toLowerCase();
     const password = Math.random().toString();
     const resetToken = randomString(20);

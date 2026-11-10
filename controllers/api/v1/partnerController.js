@@ -5,6 +5,7 @@ const userModel = require('../../../models/mongo/User');
 const widgetModel = require('../../../models/mongo/Widget');
 const chatModel = require('../../../models/mongo/Chat');
 const {updatePartnerFile, createIo, deleteIo} = require('../../../core/Io');
+const {createPartnerChatsIndex} = require('../../../core/MeiliSearch');
 const {saveBuffer, deleteFile} = require('../../../helpers/fileHelper');
 
 exports.get = async function(req, res){
@@ -27,6 +28,7 @@ exports.create = async function(req, res){
 
     const partner = await partnerModel.create({name, file, key, request: 0, status: 0});
     const widget = await widgetModel.create({partnerId: partner._id});
+    const _id = partner._id.toString();
 
     for(const userId of userAdminsIds){
         const {name} = await userModel.findOne({_id: userId});
@@ -34,7 +36,7 @@ exports.create = async function(req, res){
     }
 
     createIo({
-        _id: partner._id.toString(),
+        _id: _id,
         file: partner.file,
         request: partner.request,
         name: name,
@@ -42,8 +44,10 @@ exports.create = async function(req, res){
         visitors: {incoming: [], assigned: [], served: []}
     }, {[widget._id.toString()]: widget});
 
+    createPartnerChatsIndex(partner._id.toString());
+
     return res.json({
-        partner: {_id: partner._id, status: partner.status, name, file, userAdminsIds}
+        partner: {_id: _id, status: partner.status, name, file, userAdminsIds}
     });
 };
 

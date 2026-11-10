@@ -1,4 +1,4 @@
-const {Schema, model} = require('mongoose');
+const {Schema, model, Types} = require('mongoose');
 const chatUserModel = require('./ChatUser');
 
 // const file = ["disable", "manual-disable", "enable", "manual-enable"];
