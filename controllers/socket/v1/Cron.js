@@ -5,8 +5,8 @@ const autoAnswerModel = require('../../../models/redis/autoAnswerModel');
 const meiliSearchModel = require('../../../models/redis/meiliSearchModel');
 const AUTO_ANSWER_TIMEOUT = parseInt(process.env.AUTO_ANSWER_TIMEOUT);
 const VISITORS_DISCONNECTED_TIMEOUT = parseInt(process.env.VISITORS_DISCONNECTED_TIMEOUT);
-const AGENTS_DISCONNECTED_TIMEOUT_FOR_STATUS = parseInt(process.env.AGENTS_DISCONNECTED_TIMEOUT_FOR_STATUS);
-const AGENTS_DISCONNECTED_TIMEOUT_FOR_LOGOUT = parseInt(process.env.AGENTS_DISCONNECTED_TIMEOUT_FOR_LOGOUT);
+const AGENTS_DISCONNECTED_TIMEOUT_INVISIBLE = parseInt(process.env.AGENTS_DISCONNECTED_TIMEOUT_INVISIBLE);
+const AGENTS_DISCONNECTED_TIMEOUT_OFFLINE = parseInt(process.env.AGENTS_DISCONNECTED_TIMEOUT_OFFLINE);
 const CRON_AUTO_ANSWER_INTERVAL = parseInt(process.env.CRON_AUTO_ANSWER_INTERVAL);
 const IP_ADDRESSES_CACHE_TIMEOUT = parseInt(process.env.IP_ADDRESSES_CACHE_TIMEOUT);
 
@@ -36,11 +36,11 @@ exports.partnerCron = function(partner, setAutoAnswer, agentsLogout){
 
     this.disconnectAgents = function(){
         partner.users['disconnected-agents'].forEach(async (user, userId) => {
-            if(user['status'] !== 2 && user['disconnected'] + AGENTS_DISCONNECTED_TIMEOUT_FOR_STATUS < Date.now()){
+            if(user['status'] !== 2 && user['disconnected'] + AGENTS_DISCONNECTED_TIMEOUT_INVISIBLE < Date.now()){
                 await userPartnerModel.updateOne({partnerId: partner.id, _id: userId}, {status: 2, views: []});
                 partner.updateAgent(userId, {status: 2});
                 partner.io.to(partner.id).emit('agents.update.status', [userId, 2, user.name, user.role]);
-            }else if(user['disconnected'] + AGENTS_DISCONNECTED_TIMEOUT_FOR_LOGOUT < Date.now()){
+            }else if(user['disconnected'] + AGENTS_DISCONNECTED_TIMEOUT_OFFLINE < Date.now()){
                 agentsLogout(userId, 1);
             }
         });

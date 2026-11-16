@@ -10,15 +10,17 @@ exports.signIn = async function(req, res){
     const {userId, _id, partnerId} = req.userPartner;
 
     const [user, userPartner, partner, shortcuts] = await Promise.all([
-        userModel.findOne({_id: userId}).select('email'),
-        userPartnerModel.findOne({_id: _id}).select('role name profileImage messageFlag requestFlag'),
+        userModel.findOne({_id: userId}).select('email status'),
+        userPartnerModel.findOne({_id: _id, status: {$gt: 0}}).select('role name profileImage messageFlag requestFlag status'),
         partnerModel.findOne({_id: partnerId}).select('name dashboardImage request'),
         shortcutModel.find({partnerId: partnerId}).select('tag message'),
     ]);
 
+    if(userPartner.status === 1) await userPartnerModel.updateOne({_id: _id}, {status: 2});
+
     return res.json({
         userEmail: user.email,
-        shortcuts: shortcuts.map(({tag, message}) => ({tag: tag, message: message})),
+        shortcuts: shortcuts.map(({tag, message}) => ({tag, message})),
         partner,
         userPartner
     });
