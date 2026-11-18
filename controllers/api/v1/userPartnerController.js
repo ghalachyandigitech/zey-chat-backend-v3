@@ -5,6 +5,8 @@ const userModel = require('../../../models/mongo/User');
 const shortcutModel = require('../../../models/mongo/Shortcut');
 const chatModel = require('../../../models/mongo/Chat');
 const {saveBuffer, deleteFile} = require('../../../helpers/fileHelper');
+const {randomString} = require('../../../helpers/stringHelper');
+const {sendCreatePasswordEmail} = require('../../../helpers/mailHelper');
 
 exports.signIn = async function(req, res){
     const {userId, _id, partnerId} = req.userPartner;
@@ -123,8 +125,11 @@ exports.createAgents = async function(req, res){
 
     let user = await userModel.findOne({email});
     if(!user) {
-        user = await userModel.create({email, password: Math.random().toString()});
-        // sendEmail(user._id, email, user.password);
+        const resetToken = randomString(20);
+
+        user = await userModel.create({email, password: Math.random().toString(), resetToken});
+
+        sendCreatePasswordEmail(email, resetToken);
     }else{
         if(await userPartnerModel.findOne({userId: user._id, role: 1}))
             return res.status(422).json('this email is admin');
@@ -146,9 +151,12 @@ exports.adminsUpdateAgents = async function(req, res){
     const agent = {name: name, limit: limit, role: role};
 
     if(!await userModel.findOne({email})){
-        const {_id} = await userModel.create({email, password: Math.random().toString()});
-        // sendEmail(userId, email, password);
+        const resetToken = randomString(20);
+
+        const {_id} = await userModel.create({email, password: Math.random().toString(), resetToken});
         agent.userId = _id;
+
+        sendCreatePasswordEmail(email, resetToken);
     }
 
     await userPartnerModel.updateOne({_id: userPartnerId, partnerId: partnerId}, agent);

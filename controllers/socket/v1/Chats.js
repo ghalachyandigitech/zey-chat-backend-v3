@@ -70,7 +70,7 @@ module.exports = function(partner){
         partner.visitorUpdateRoleManual(chat.companion._id, 'served');
         partner.io.to(chatId).emit('chats.status', [chat.user.name || '', userId, chatId,'',chat.user.image]);
 
-        if(status !== 0) await chatRecover(chat, 'agents');
+        await chatRecover(chat, 'agents');
         if(status === 3) await setLog(chatId, oldUserId, 'left');
         await setLog(chatId, userId, 'joined', chat.user.name);
     }

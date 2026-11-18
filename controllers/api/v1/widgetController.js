@@ -49,7 +49,11 @@ exports.updateSettings = async function(req, res){
     const {partnerId} = req.userPartner;
     const {_id, language, notificationSound, isRatingEnabled} = req.body;
 
-    await widgetModel.updateOne({_id: _id, partnerId: partnerId}, {language, notificationSound, isRatingEnabled});
+    updatePartnerWidget(partnerId, _id, await widgetModel.findOneAndUpdate(
+        {_id, partnerId},
+        {language, notificationSound, isRatingEnabled},
+        {returnDocument: 'after'}
+    ));
 
     return res.json();
 };
@@ -60,7 +64,11 @@ exports.updateForms = async function(req, res){
     const {partnerId} = req.userPartner;
     const {_id, offlineGreeting, greetingMessage} = req.body;
 
-    await widgetModel.updateOne({_id: _id, partnerId: partnerId}, {offlineGreeting, greetingMessage});
+    updatePartnerWidget(partnerId, _id, await widgetModel.findOneAndUpdate(
+        {_id, partnerId},
+        {offlineGreeting, greetingMessage},
+        {returnDocument: 'after'}
+    ));
 
     return res.json();
 };
@@ -71,9 +79,11 @@ exports.updateStyles = async function(req, res){
     const {partnerId} = req.userPartner;
     const {_id, styles} = req.body;
 
-    await widgetModel.updateOne({_id: _id, partnerId: partnerId}, {styles: styles});
-
-    updatePartnerWidget(partnerId, _id, await widgetModel.findOne({_id: _id}));
+    updatePartnerWidget(partnerId, _id, await widgetModel.findOneAndUpdate(
+        {_id, partnerId},
+        {styles: styles},
+        {returnDocument: 'after'}
+    ));
 
     return res.json();
 };

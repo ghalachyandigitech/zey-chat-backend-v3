@@ -1,4 +1,4 @@
-const {sendUserAdminPassword} = require('../../../helpers/mailHelper');
+const {sendCreatePasswordEmail} = require('../../../helpers/mailHelper');
 const {logoutPartnerAgents} = require('../../../core/Io');
 const {randomString, stringToSha256} = require('../../../helpers/stringHelper');
 const userModel = require("../../../models/mongo/User");
@@ -78,10 +78,14 @@ exports.forgotPassword = async function(req, res){
     const email = req.body.email.toLowerCase();
     const resetToken = randomString(20);
 
-    const {modifiedCount} = await userModel.updateOne({email, role: {$in: [1,2,3]}}, {resetToken});
-    if(!modifiedCount) return res.status(422).json('wrong email');
+    const user = await userModel.findOne({email});
 
-    sendUserAdminPassword(email, resetToken);
+    if(!user) return res.status(422).json('wrong email');
+    else if(user.updatedAt > new Date(Date.now() - 5 * 60 * 1000)) return res.status(422).json('email already sent');
+
+    await userModel.updateOne({_id: user._id}, {resetToken});
+
+    sendCreatePasswordEmail(email, resetToken);
 
     return res.json();
 };
@@ -116,7 +120,7 @@ exports.updateUserAdmin = async function(req, res){
 
     const resetToken = userAdmin.email !== email ? randomString(20) : '';
     await userModel.updateAdmin(_id, {companyName, phone, name, email, resetToken});
-    if(resetToken) sendUserAdminPassword(email, resetToken);
+    if(resetToken) sendCreatePasswordEmail(email, resetToken);
 
     return res.json({
         userAdmin: req.body
@@ -131,7 +135,7 @@ exports.resetPasswordUserAdmin = async function(req, res){
 
     const resetToken = randomString(20);
     await userModel.updateAdmin(req.query._id, {resetToken});
-    sendUserAdminPassword(userAdmin.email, resetToken);
+    sendCreatePasswordEmail(userAdmin.email, resetToken);
 
     return res.json();
 };
@@ -140,7 +144,6 @@ exports.createUserAdmin = async function(req, res){
     if(!validationResult(req).isEmpty()) return res.status(422).json();
 
     const {name, companyName, phone} = req.body;
-    console.log(req.body)
     const email = req.body.email.toLowerCase();
     const password = Math.random().toString();
     const resetToken = randomString(20);
@@ -153,7 +156,7 @@ exports.createUserAdmin = async function(req, res){
         userAdmin = await userModel.createAdmin(email, password, phone, companyName, name, resetToken);
     }
 
-    sendUserAdminPassword(email, resetToken);
+    sendCreatePasswordEmail(email, resetToken);
 
     return res.json({
         userAdmin: userAdmin
